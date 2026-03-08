@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thiệp Chúc Mừng 8/3</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
 <style>
+
+*{box-sizing:border-box;}
 
 body{
 margin:0;
@@ -13,31 +17,45 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-font-family:'Segoe UI', Arial;  
-font-size: 18px;
-
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#ffecd2);
+font-family:'Poppins',sans-serif;
 overflow:hidden;
 text-align:center;
-color:white;
 }
 
-/* khung thiệp */
+/* phong bi */
 
-.card{
-background:rgba(255,255,255,0.2);
-padding: 100px;
-border-radius: 50px;
-backdrop-filter:blur(8px);
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-width:350px;
+.envelope{
+background:white;
+padding:50px;
+border-radius:25px;
+box-shadow:0 20px 60px rgba(0,0,0,0.2);
+width:90%;
+max-width:500px;
+transition:0.6s;
+}
+
+.envelope.hide{
+opacity:0;
+transform:scale(0.2) rotateY(90deg);
+}
+
+.envelope h1{
+font-family:'Dancing Script';
+font-size:45px;
+color:#ff4d6d;
+}
+
+.envelope p{
+font-size:18px;
+color:#555;
 }
 
 /* button */
 
 button{
 margin-top:20px;
-padding:12px 25px;
+padding:15px 30px;
 font-size:18px;
 border:none;
 border-radius:10px;
@@ -48,10 +66,44 @@ transition:0.3s;
 }
 
 button:hover{
+transform:scale(1.1);
 background:#ff1e4d;
 }
 
-/* tim bay */
+/* card */
+
+.card{
+display:none;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(15px);
+padding:60px;
+border-radius:25px;
+width:100%;
+max-width:700px;
+color:white;
+opacity:0;
+transform:scale(0.3);
+transition:0.8s;
+
+}
+
+.card.show{
+display:block;
+opacity:1;
+transform:scale(1);
+}
+
+.card h1{
+font-family:'Dancing Script';
+font-size:55px;
+}
+
+.card p{
+font-size:22px;
+line-height:1.8;
+}
+
+/* hearts */
 
 .heart{
 position:absolute;
@@ -60,114 +112,209 @@ animation:heartFly linear infinite;
 }
 
 @keyframes heartFly{
-0%{
-transform:translateY(100vh);
-opacity:1;
-}
-100%{
-transform:translateY(-10vh);
-opacity:0;
-}
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
 }
 
-/* hoa rơi */
+/* flower */
 
 .flower{
 position:absolute;
-font-size:22px;
+font-size:24px;
 animation:flowerFall linear infinite;
 }
 
 @keyframes flowerFall{
-0%{
-transform:translateY(-10vh) rotate(0deg);
-opacity:1;
+0%{transform:translateY(-10vh) rotate(0);}
+100%{transform:translateY(100vh) rotate(360deg);}
 }
-100%{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
+
+/* sparkle */
+
+.sparkle{
+position:absolute;
+font-size:20px;
+animation:sparkle 1.5s forwards;
 }
+
+@keyframes sparkle{
+0%{opacity:1;}
+100%{opacity:0; transform:translateY(-80px);}
 }
+
+/* confetti */
+
+.confetti{
+position:absolute;
+width:10px;
+height:10px;
+animation:fall 3s forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh) rotate(360deg); opacity:0;}
+}
+
 
 </style>
 </head>
 
 <body>
 
-<!-- Trang 1 -->
-
-<div id="trang1" class="card">
-
-<h1>💐 Chúc mừng 8/3 💐</h1>
-
-<p>Bấm nút dưới để mở thiệp</p>
-
-<button onclick="moThiep()">Mở thiệp 💌</button>
-
+<div id="phongbi" class="envelope">
+<h1>💌 Bạn có một thiệp 8/3</h1>
+<p>Bấm nút để mở</p>
+<button onclick="moThiep()">Mở Thiệp</button>
 </div>
 
-<!-- Trang 2 -->
-
-<div id="trang2" class="card" style="display:none;">
-
-<h1>💌 Lời Chúc</h1>
+<div id="thiep" class="card">
+<h1>💐 Chúc Mừng 8/3 💐</h1>
 
 <p>
-Chúc mẹ và tất cả phụ nữ trong gia đình  
-luôn mạnh khỏe, hạnh phúc và luôn xinh đẹp ❤️
+Chúc mẹ và tất cả phụ nữ trong gia đình<br>
+luôn mạnh khỏe, hạnh phúc và xinh đẹp ❤️
 </p>
 
 <p>
-Cảm ơn vì đã luôn yêu thương và chăm sóc gia đình.  
-Chúc một ngày 8/3 thật ý nghĩa 🌸
+Cảm ơn vì đã luôn yêu thương<br>
+và chăm sóc gia đình 🌸
 </p>
 
+<button onclick="closeCard()">Đóng Lại</button>
 </div>
+
+
 
 <script>
 
 /* mở thiệp */
 
 function moThiep(){
-document.getElementById("trang1").style.display="none";
-document.getElementById("trang2").style.display="block";
+
+const phongbi=document.getElementById("phongbi");
+const thiep=document.getElementById("thiep");
+
+taoSparkle(30);
+taoConfetti(50);
+
+phongbi.classList.add("hide");
+
+setTimeout(()=>{
+phongbi.style.display="none";
+thiep.style.display="block"; 
+thiep.classList.add("show");
+},600)
+
+}
+
+/* đóng thiệp */
+
+function closeCard(){
+
+const phongbi=document.getElementById("phongbi");
+const thiep=document.getElementById("thiep");
+
+thiep.classList.remove("show");
+
+setTimeout(()=>{
+thiep.style.display="none";
+phongbi.style.display="block";
+phongbi.classList.remove("hide");
+},600)
+
 }
 
 /* tim bay */
 
 function taoTim(){
+
 const heart=document.createElement("div");
+
 heart.className="heart";
 heart.innerHTML="❤️";
+
 heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=3+Math.random()*3+"s";
+heart.style.animationDuration=(3+Math.random()*3)+"s";
 
 document.body.appendChild(heart);
 
-setTimeout(()=>{
-heart.remove();
-},6000);
+setTimeout(()=>heart.remove(),6000);
+
 }
 
-setInterval(taoTim,500);
+setInterval(taoTim,700);
 
-/* hoa rơi */
+/* hoa roi */
 
 function taoHoa(){
+
 const flower=document.createElement("div");
+
 flower.className="flower";
 flower.innerHTML="🌸";
+
 flower.style.left=Math.random()*100+"vw";
-flower.style.animationDuration=5+Math.random()*5+"s";
+flower.style.animationDuration=(5+Math.random()*5)+"s";
 
 document.body.appendChild(flower);
 
-setTimeout(()=>{
-flower.remove();
-},8000);
+setTimeout(()=>flower.remove(),8000);
+
 }
 
-setInterval(taoHoa,700);
+setInterval(taoHoa,900);
+
+/* sparkle */
+
+function taoSparkle(count){
+
+for(let i=0;i<count;i++){
+
+const s=document.createElement("div");
+
+s.className="sparkle";
+s.innerHTML="✨";
+
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+
+document.body.appendChild(s);
+
+setTimeout(()=>s.remove(),1500)
+
+}
+
+}
+
+/* confetti */
+
+function taoConfetti(count){
+
+const colors=["#ff4d6d","#ffd60a","#06d6a0","#118ab2"];
+
+for(let i=0;i<count;i++){
+
+const c=document.createElement("div");
+
+c.className="confetti";
+
+c.style.background=colors[Math.floor(Math.random()*colors.length)];
+
+c.style.left=Math.random()*100+"vw";
+c.style.top="-10px";
+
+document.body.appendChild(c);
+
+setTimeout(()=>c.remove(),3000)
+
+}
+
+}
+
+
+
+
+
 
 </script>
 
